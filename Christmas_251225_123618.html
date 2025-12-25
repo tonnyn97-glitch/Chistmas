@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>❤️</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: black;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .text {
+      position: absolute;
+      font-size: 3em;
+      text-align: center;
+      opacity: 0;
+      animation: pulse 1.5s infinite;
+      z-index: 2;
+    }
+
+    #christmas {
+      animation: showChristmas 4s forwards;
+    }
+
+    #love {
+      animation: showLove 4s forwards;
+      animation-delay: 4s;
+    }
+
+    @keyframes showChristmas {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes showLove {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    /* Snow */
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      font-size: 1em;
+      opacity: 0.8;
+      animation: fall linear;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+      }
+    }
+
+    /* Hearts */
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      animation: floatUp 2s ease-out forwards;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1.5);
+      }
+    }
+
+    #hint {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.9em;
+      opacity: 0.7;
+      z-index: 4;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="christmas" class="text">🎄 Merry Christmas 🎄</div>
+  <div id="love" class="text">❤️ I love you ❤️</div>
+  <div id="hint">Tap anywhere ❤️</div>
+
+  <!-- Jingle Bells (royalty-free public-domain style recording) -->
+  <audio id="music" loop>
+    <source src="https://cdn.pixabay.com/audio/2022/11/22/audio_1c3c84f8f2.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Snow
+    function createSnowflake() {
+      const snowflake = document.createElement("div");
+      snowflake.className = "snowflake";
+      snowflake.innerHTML = "❄️";
+      snowflake.style.left = Math.random() * window.innerWidth + "px";
+      snowflake.style.fontSize = (Math.random() * 20 + 10) + "px";
+      snowflake.style.animationDuration = (Math.random() * 5 + 5) + "s";
+      document.body.appendChild(snowflake);
+      setTimeout(() => snowflake.remove(), 10000);
+    }
+    setInterval(createSnowflake, 200);
+
+    // Music + Hearts on tap
+    const music = document.getElementById("music");
+    let musicStarted = false;
+
+    document.addEventListener("click", (e) => {
+      if (!musicStarted) {
+        music.play();
+        musicStarted = true;
+        document.getElementById("hint").style.display = "none";
+      }
+
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "❤️";
+      heart.style.left = e.clientX + "px";
+      heart.style.top = e.clientY + "px";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 2000);
+    });
+  </script>
+
+</body>
+</html>
